@@ -24,6 +24,20 @@ except ImportError:
 
 app = FastAPI(title="One Answer Engine")
 
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "service": "One Answer Engine",
+        "docs": "/docs",
+        "openapi": "/openapi.json",
+    }
+
+
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
