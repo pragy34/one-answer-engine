@@ -3,7 +3,7 @@ import os
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -33,6 +33,11 @@ def root():
         "docs": "/docs",
         "openapi": "/openapi.json",
     }
+
+@app.head("/")
+def root_head() -> Response:
+    # Some platforms probe health with HEAD requests.
+    return Response(status_code=200)
 
 
 @app.get("/healthz")
