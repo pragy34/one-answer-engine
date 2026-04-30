@@ -1,4 +1,5 @@
 import json
+import os
 import uuid
 from pathlib import Path
 
@@ -38,10 +39,14 @@ def root():
 def healthz():
     return {"status": "ok"}
 
+origins_raw = os.getenv("FRONTEND_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000")
+allowed_origins = [o.strip() for o in origins_raw.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    # Wildcard origins + credentials is insecure and rejected by browsers.
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
