@@ -1,5 +1,7 @@
 # ✦ One Answer Engine | Mumzworld
 
+One Answer Engine is a live reasoning-first AI product advisor for Mumzworld, available at https://one-answer-engine-2.onrender.com, that asks three quick questions, selects one best-fit mother-and-baby product using deterministic filtering and scoring, then explains the recommendation in English or Arabic with transparent trust signals.
+
 One Answer Engine is a **reasoning-first AI product advisor** for Mumzworld — a premium mother-and-baby e-commerce platform in the Middle East.
 In **3 quick questions**, it recommends the best product in a category (e.g., strollers, formula, car seats), explains the choice in warm language (**Arabic/English**), and shows transparent “why this” reasoning.
 
@@ -195,4 +197,3 @@ I built One Answer Engine to demonstrate a production-style pattern that feels t
 - The **reasoning engine decides first** (filters + scoring + winner selection).
 - Only after that, the **LLM speaks** — generating a short explanation from the structured facts (and falling back to a safe template if unavailable).
 - The UI is designed like a real product: bilingual/RTL, strong hierarchy, transparent reasoning, and interactive recalculation that proves the system is logic-based.
-
