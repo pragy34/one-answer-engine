@@ -5,6 +5,8 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 try:
@@ -25,8 +27,16 @@ except ImportError:
 
 app = FastAPI(title="One Answer Engine")
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
+FRONTEND_INDEX = FRONTEND_DIST / "index.html"
+
+
 @app.get("/")
 def root():
+    if FRONTEND_INDEX.exists():
+        return FileResponse(FRONTEND_INDEX)
+
     return {
         "status": "ok",
         "service": "One Answer Engine",
@@ -168,3 +178,21 @@ def _final_response(session: dict, language: str) -> dict:
     session["last_language"] = language
     session["last_explanation"] = llm_output
     return build_response(reasoning, llm_output)
+
+
+if FRONTEND_DIST.exists():
+    app.mount(
+        "/assets",
+        StaticFiles(directory=FRONTEND_DIST / "assets"),
+        name="frontend-assets",
+    )
+
+
+@app.get("/{full_path:path}")
+def serve_frontend(full_path: str):
+    requested_path = FRONTEND_DIST / full_path
+    if FRONTEND_DIST.exists() and requested_path.is_file():
+        return FileResponse(requested_path)
+    if FRONTEND_INDEX.exists():
+        return FileResponse(FRONTEND_INDEX)
+    raise HTTPException(status_code=404, detail="Not found")

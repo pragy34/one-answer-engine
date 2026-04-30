@@ -6,11 +6,7 @@ import ResultCard from './ResultCard';
 import RunnerUpCard from './RunnerUpCard';
 import WhyThisPanel from './WhyThisPanel';
 import WhatIfPanel from './WhatIfPanel';
-
-const API_BASE_RAW = import.meta?.env?.VITE_API_BASE;
-// If VITE_API_BASE is set to an empty string, we intentionally use same-origin ("" + "/path").
-const API_BASE =
-  typeof API_BASE_RAW === 'string' ? API_BASE_RAW.trim() : 'http://127.0.0.1:8000';
+import { API_BASE } from './apiBase';
 
 const COPY = {
   ar: {
@@ -229,4 +225,3 @@ function App() {
 }
 
 export default App;
-
